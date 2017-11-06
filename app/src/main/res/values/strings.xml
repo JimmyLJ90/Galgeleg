@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Galgeleg</string>
+    <string name="title_activity_test_test">TestTest</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main_nav_akt">Main_nav_akt</string>
+    <string name="Appbar_title">Galgeleg</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

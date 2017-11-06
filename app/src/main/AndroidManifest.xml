@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dk.dtu.jimmy.galgeleg">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Main_nav_akt"
+            android:label="@string/title_activity_main_nav_akt"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Menu_akt">
+        </activity>
+        <activity android:name=".Game_akt" />
+        <activity android:name=".Help_akt" />
+        <activity
+            android:name=".Main_akt"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+    </application>
+
+</manifest>
