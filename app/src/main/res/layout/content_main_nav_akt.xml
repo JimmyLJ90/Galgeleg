@@ -8,6 +8,7 @@
     tools:context="dk.dtu.jimmy.galgeleg.Main_nav_akt"
     tools:showIn="@layout/app_bar_main_nav_akt">
 
+
     <FrameLayout
         android:id="@+id/fragment_content"
         android:layout_width="0dp"

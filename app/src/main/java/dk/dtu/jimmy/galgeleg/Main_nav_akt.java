@@ -11,11 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import fragments.Game_main_frag;
+import fragments.Help_frag;
+import fragments.Highscore_list_frag;
+import galgeleg_logik.Galgelogik;
 
 public class Main_nav_akt extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Fragment activeGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,9 @@ public class Main_nav_akt extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = new Game_main_frag();
+        activeGame = new Game_main_frag();
         FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
-        fragTrans.add(R.id.fragment_content , fragment).commit();
+        fragTrans.add(R.id.fragment_content , activeGame).addToBackStack("Game").commit();
 
     }
 
@@ -77,21 +83,30 @@ public class Main_nav_akt extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        
+        Fragment fragment;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         switch(id)
         {
-            case R.id.nav_camera:
+            case R.id.nav_restart:
+                for(Fragment f : getSupportFragmentManager().getFragments())
+                    System.out.println(f);
+                getSupportFragmentManager().popBackStack();
+                activeGame = new Game_main_frag();
+                Galgelogik.getInstance().nulstil();
+                ft.replace(R.id.fragment_content , activeGame).addToBackStack(null).commit();
                 break;
-            case R.id.nav_gallery:
+            case R.id.nav_highscore:
+                fragment = new Highscore_list_frag();
+                ft.replace(R.id.fragment_content , fragment).addToBackStack(null).commit();
                 break;
-            case R.id.nav_slideshow:
+            case R.id.nav_settings:
                 break;
-            case R.id.nav_manage:
+            case R.id.nav_help:
+                fragment = new Help_frag();
+                ft.replace(R.id.fragment_content , fragment).addToBackStack(null).commit();
                 break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
-                break;
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

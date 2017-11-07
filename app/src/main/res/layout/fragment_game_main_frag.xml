@@ -6,6 +6,20 @@
     android:background="@android:color/white"
     tools:context="dk.dtu.jimmy.galgeleg.fragments.Game_main_frag">
 
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="193dp"
@@ -39,13 +53,12 @@
 
     <LinearLayout
         android:id="@+id/LinearLayout"
-        android:layout_width="296dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:gravity="center_vertical|center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -69,17 +82,17 @@
         android:id="@+id/game_keyboard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contextClickable="false"
         android:elevation="3dp"
+        android:gravity="top|center"
         android:maxHeight="200dp"
         android:numColumns="8"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:stretchMode="columnWidth"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 

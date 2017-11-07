@@ -4,6 +4,7 @@ package fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class Help_frag extends Fragment {
                 "at gætte et tilfældigt ord - Ét bogstav ad gangen.\n\n" +
                 "Hver gang du gætter forkert bliver han tegnet mere og mere op," +
                 " hvis han er fuldt optegnet og du gætter forkert har du tabt.");
+
         return root;
     }
 

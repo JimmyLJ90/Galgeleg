@@ -1,15 +1,20 @@
 package fragments;
 
 
+import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,6 +52,8 @@ public class Game_main_frag extends Fragment implements View.OnClickListener, Ad
     private GridView keyboard;
     private ArrayList<String> alphabet;
     private ArrayAdapter<String> arrayAdapter;
+    private View root;
+    private boolean ready; // used for when loading in words from the internet
 
 
     public Game_main_frag() {
@@ -61,10 +68,10 @@ public class Game_main_frag extends Fragment implements View.OnClickListener, Ad
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_game_main_frag, container, false);
+        root = inflater.inflate(R.layout.fragment_game_main_frag, container, false);
 
 
-        getActivity().setTitle("Galgelg");
+        getActivity().setTitle("Galgeleg");
         theWord = (LinearLayout) root.findViewById(R.id.LinearLayout);
         usedLetters = (LinearLayout) root.findViewById(R.id.linearLayout);
         usedLettersText = (TextView)root.findViewById(R.id.textView3);
@@ -73,7 +80,7 @@ public class Game_main_frag extends Fragment implements View.OnClickListener, Ad
         keyboard = (GridView) root.findViewById(R.id.game_keyboard);
 
 
-
+        createNewKeyboard();
         //Denne Hashmap gør det nemmere at hente det rigtige billede alt efter hvor mange bogstaver man har forkert
         gallowsMap = new HashMap<Integer , Integer>();
         gallowsMap.put(0 , R.mipmap.galge_0_forkert);
@@ -84,31 +91,49 @@ public class Game_main_frag extends Fragment implements View.OnClickListener, Ad
         gallowsMap.put(5 , R.mipmap.galge_5_forkert);
         gallowsMap.put(6 , R.mipmap.galge_6_forkert);
 
-        //Prøver at hente ord fra dr, hvis det ikke virker bruger vi default ord fra Galgelogik
-       /* try
-        {
-            logic.hentOrdFraDr();
-            System.out.print("Det var muligt at hente ord fra dr");
-        }
-        catch (Exception e)
-        {
-            System.out.println("Kunne ikke hente ord fra DR");
 
-            e.printStackTrace();
-        }*/
 
-        logic.nulstil();
         String ord = logic.getOrdet();
         logic.logStatus();
-        createNewKeyboard();
-        updateScreen();
 
+
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                ready = false;
+                try {
+                    logic.hentOrdFraDr();
+                    System.out.println("Hentede ord fra DR");
+                } catch (Exception e) {
+                    System.out.println("Kunne ikke hente ord fra DR");
+                }
+                logic.nulstil();
+
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object result)
+            {
+                ready = true;
+                root.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                updateScreen();
+            }
+
+
+        }.execute();
         return root;
     }
 
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void newGame()
+    {
+        createNewKeyboard();
+        logic.nulstil();
     }
     public void endOfGame()
     {
@@ -172,11 +197,19 @@ public class Game_main_frag extends Fragment implements View.OnClickListener, Ad
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String letter = ((String)parent.getItemAtPosition(position)).toLowerCase();
-        alphabet.remove(position);
-        arrayAdapter.notifyDataSetChanged();
-        logic.gætBogstav(letter);
-        updateScreen();
+        if(view.getAlpha() == 1 && ready)
+        {
+            view.animate().alpha(0.5f).translationZ(-4f).setDuration(19).setInterpolator(new AccelerateDecelerateInterpolator());
+
+            //alphabet.remove(position);
+            //arrayAdapter.notifyDataSetChanged();
+            logic.gætBogstav(letter);
+            updateScreen();
+        }
+
 
 
     }
+
+
 }
