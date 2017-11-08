@@ -1,6 +1,7 @@
 package dk.dtu.jimmy.galgeleg;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 /**
  * Created by Jimmy on 04-11-2017.
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public interface IHighscoreDAO {
 
-    ArrayList<HighscoreDTO> getAll();
-    void add(HighscoreDTO dto);
-    void delete(int ID);
+    List<HighscoreDTO> getAllHighscores();
+    void addHighscore(HighscoreDTO dto);
+    void deleteHighscore(int ID);
 }

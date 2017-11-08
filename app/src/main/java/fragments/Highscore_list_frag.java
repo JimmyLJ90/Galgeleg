@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import dk.dtu.jimmy.galgeleg.HighscoreArrayDAO;
 import dk.dtu.jimmy.galgeleg.HighscoreDTO;
@@ -32,9 +33,41 @@ public class Highscore_list_frag extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_highscore_list_frag, container, false);
         getActivity().setTitle("Highscore");
-        IHighscoreDAO highDao = new HighscoreArrayDAO();
+        final IHighscoreDAO highDao = new HighscoreArrayDAO();
 
-        ArrayAdapter<HighscoreDTO> arrayAdapter = new ArrayAdapter<HighscoreDTO>(getActivity() , R.layout.highscore_element , R.id.textView9, highDao.getAll());
+        highDao.addHighscore(new HighscoreDTO("Sebastian" , 55));
+        highDao.addHighscore(new HighscoreDTO("Didrik" , 200));
+        highDao.addHighscore(new HighscoreDTO("Georg" , 11));
+        highDao.addHighscore(new HighscoreDTO("Sebastian" , 55));
+        highDao.addHighscore(new HighscoreDTO("Didrik" , 200));
+        highDao.addHighscore(new HighscoreDTO("Georg" , 11));
+        highDao.addHighscore(new HighscoreDTO("Sebastian" , 55));
+        highDao.addHighscore(new HighscoreDTO("Didrik" , 200));
+        highDao.addHighscore(new HighscoreDTO("Georg" , 11));
+        highDao.addHighscore(new HighscoreDTO("Sebastian" , 55));
+        highDao.addHighscore(new HighscoreDTO("Didrik" , 200));
+        highDao.addHighscore(new HighscoreDTO("Georg" , 11));
+        highDao.addHighscore(new HighscoreDTO("Sebastian" , 55));
+        highDao.addHighscore(new HighscoreDTO("Didrik" , 200));
+        highDao.addHighscore(new HighscoreDTO("Georg" , 11));
+
+
+        ArrayAdapter<HighscoreDTO> arrayAdapter = new ArrayAdapter<HighscoreDTO>(getActivity() ,
+                R.layout.highscore_element , R.id.highscore_rank, highDao.getAllHighscores()){
+
+            @Override
+            public View getView(int position , View cachedView , ViewGroup parent)
+            {
+                View view = super.getView(position , cachedView , parent);
+                TextView name = (TextView)view.findViewById(R.id.highscore_name);
+                TextView score = (TextView)view.findViewById(R.id.highscore_score);
+                TextView rank = (TextView)view.findViewById(R.id.highscore_rank);
+                rank.setText(""+(position+1));
+                name.setText("Navn: "+highDao.getAllHighscores().get(position).getName());
+                score.setText("Score: "+highDao.getAllHighscores().get(position).getScore());
+                return view;
+            }
+        };
         ((ListView)root.findViewById(R.id.listView)).setAdapter(arrayAdapter);
         return root;
     }

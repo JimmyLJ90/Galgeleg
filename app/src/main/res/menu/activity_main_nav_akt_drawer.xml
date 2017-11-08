@@ -7,19 +7,15 @@
         <item
             android:id="@+id/nav_restart"
             android:icon="@android:drawable/ic_menu_rotate"
-            android:title="Nyt ord" />
+            android:title="@string/nyt_ord" />
         <item
             android:id="@+id/nav_highscore"
             android:icon="@android:drawable/btn_star_big_on"
-            android:title="Highscore" />
+            android:title="@string/highscore" />
         <item
             android:id="@+id/nav_help"
             android:icon="@android:drawable/ic_menu_help"
-            android:title="Hjælp" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Settings" />
+            android:title="@string/hjaelp" />
     </group>
 
 </menu>

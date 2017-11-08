@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import fragments.Front_page_frag;
 import fragments.Game_main_frag;
 import fragments.Help_frag;
 import fragments.Highscore_list_frag;
@@ -21,7 +22,7 @@ import galgeleg_logik.Galgelogik;
 public class Main_nav_akt extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Fragment activeGame;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,9 @@ public class Main_nav_akt extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        activeGame = new Game_main_frag();
+        Fragment frag = new Front_page_frag();
         FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
-        fragTrans.add(R.id.fragment_content , activeGame).addToBackStack("Game").commit();
+        fragTrans.add(R.id.fragment_content , frag).commit();
 
     }
 
@@ -56,27 +57,6 @@ public class Main_nav_akt extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_nav_akt, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -89,22 +69,17 @@ public class Main_nav_akt extends AppCompatActivity
         switch(id)
         {
             case R.id.nav_restart:
-                for(Fragment f : getSupportFragmentManager().getFragments())
-                    System.out.println(f);
-                getSupportFragmentManager().popBackStack();
-                activeGame = new Game_main_frag();
+                Fragment activeGame = new Game_main_frag();
                 Galgelogik.getInstance().nulstil();
                 ft.replace(R.id.fragment_content , activeGame).addToBackStack(null).commit();
                 break;
             case R.id.nav_highscore:
                 fragment = new Highscore_list_frag();
-                ft.replace(R.id.fragment_content , fragment).addToBackStack(null).commit();
-                break;
-            case R.id.nav_settings:
+                ft.replace(R.id.fragment_content , fragment).addToBackStack("highscore").commit();
                 break;
             case R.id.nav_help:
                 fragment = new Help_frag();
-                ft.replace(R.id.fragment_content , fragment).addToBackStack(null).commit();
+                ft.replace(R.id.fragment_content , fragment).addToBackStack("help").commit();
                 break;
 
         }

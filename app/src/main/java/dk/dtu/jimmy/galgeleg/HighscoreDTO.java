@@ -9,6 +9,7 @@ public class HighscoreDTO {
     private String name;
     private int score;
     private int ID = -1;
+    private long timestamp;
 
 
 
@@ -16,6 +17,7 @@ public class HighscoreDTO {
     {
         this.score = score;
         this.name = name;
+        this.timestamp = System.currentTimeMillis();
     }
 
     public String getName() {
@@ -40,5 +42,13 @@ public class HighscoreDTO {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
