@@ -65,7 +65,6 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
         gallows = (ImageView)root.findViewById(R.id.imageView2);
         keyboard = (GridView) root.findViewById(R.id.game_keyboard);
 
-
         createNewKeyboard();
         //Denne Hashmap gør det nemmere at hente det rigtige billede alt efter hvor mange bogstaver man har forkert
         gallowsMap = new SparseIntArray(7);
@@ -139,7 +138,7 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
             if(letter.equals("*"))
                 tv.setText("_");
             else
-                tv.setText(letter);
+                tv.setText(letter.toUpperCase());
 
             tv.setWidth(0);
             tv.setTextSize(textSize);
@@ -190,12 +189,12 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
         logic.gætBogstav(letter);
         if(logic.erSpilletSlut())
         {
-            Fragment gameOver = new Game_over_frag();
+            Fragment gameOver;
             Bundle arg = new Bundle();
             if(logic.erSpilletTabt())
             {
+                gameOver = new Game_lost_frag();
                 arg.putString("word", logic.getOrdet());
-                arg.putBoolean("won" , false);
                 gameOver.setArguments(arg);
                 updateScreen();
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -205,8 +204,10 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
             }
             else if(logic.erSpilletVundet())
             {
+                gameOver = new Game_won_frag();
                 arg.putInt("tries" , logic.getAntalForkerteBogstaver());
-                arg.putBoolean("won" , true);
+                arg.putInt("score" , getScore());
+                arg.putString("word" , logic.getOrdet());
                 gameOver.setArguments(arg);
                 updateScreen();
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -218,7 +219,27 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
         else
             updateScreen();
 
+    }
 
+    public int getScore()
+    {
+        //Arbitrary score calculation
+
+        double scoreCoeff = ((double)getUniqueLetters(logic.getOrdet()))/logic.getOrdet().length();
+        int score = (int)((1+1/Math.pow(2 , logic.getAntalForkerteBogstaver()))*scoreCoeff*100);
+        return score;
+    }
+
+    private int getUniqueLetters(String word)
+    {
+        ArrayList<String> uniqueLetters = new ArrayList<>();
+        for(int i = 0 ; i< word.length() ; i++)
+        {
+            String letter = word.substring(i , i+1);
+            if(!uniqueLetters.contains(letter))
+                uniqueLetters.add(letter);
+        }
+        return uniqueLetters.size();
     }
 
 

@@ -35,7 +35,6 @@ public class Front_page_frag extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Fragment frag = new Game_main_frag();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content , frag)
-                .addToBackStack(null)
                 .commit();
     }
 }

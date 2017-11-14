@@ -32,6 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Score" />
+
+        <TextView
+            android:id="@+id/highscore_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="word" />
+
     </LinearLayout>
 
 </LinearLayout>
