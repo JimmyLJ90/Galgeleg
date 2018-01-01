@@ -4,7 +4,7 @@ public class GalgelegTest {
 
   public static void main(String[] args) {
 
-    Galgelogik spil = Galgelogik.getInstance();
+    Galgelogik spil = new Galgelogik();
     spil.nulstil();
 
     try {

@@ -1,8 +1,10 @@
 package fragments;
 
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import dk.dtu.jimmy.galgeleg.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Game_lost_frag extends Fragment implements View.OnClickListener {
+public class Game_lost_frag extends Fragment {
 
+
+    private MediaPlayer loseSound;
 
     public Game_lost_frag() {
         // Required empty public constructor
@@ -29,20 +33,32 @@ public class Game_lost_frag extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_game_lost_frag, container, false);
-
+        loseSound = MediaPlayer.create(getActivity(), R.raw.loser_sound);
+        loseSound.start();
         String word = getArguments().getString("word");
 
-        ((TextView)root.findViewById(R.id.loser_message_word)).setText(word);
-        ((Button)root.findViewById(R.id.loser_message_playagain)).setOnClickListener(this);
+        ((TextView) root.findViewById(R.id.loser_message_word)).setText(word);
+
+        ((Button) root.
+                findViewById(R.id.loser_message_playagain)).
+                setOnClickListener((View v) ->
+                {
+                    getActivity().getSupportFragmentManager().
+                            popBackStack("popit", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getActivity().
+                            getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_content, new Game_main_frag())
+                            .addToBackStack("game")
+                            .commit();
+                });
 
         return root;
     }
 
     @Override
-    public void onClick(View v) {
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_content , new Game_main_frag())
-                .commit();
+    public void onDestroy() {
+        super.onDestroy();
+        loseSound.stop();
     }
 }

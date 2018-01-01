@@ -1,7 +1,9 @@
 package dk.dtu.jimmy.galgeleg;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,9 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 
 import fragments.Front_page_frag;
 import fragments.Game_main_frag;
@@ -28,8 +29,10 @@ public class Main_nav_akt extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_nav_akt);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -64,22 +67,24 @@ public class Main_nav_akt extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment;
+        getSupportFragmentManager().popBackStack("popit" , FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         switch(id)
         {
             case R.id.nav_restart:
                 Fragment activeGame = new Game_main_frag();
-                Galgelogik.getInstance().nulstil();
-                ft.replace(R.id.fragment_content , activeGame).addToBackStack(null).commit();
+                GalgelegApp.getInstance().logic.nulstil();
+                getSupportFragmentManager().popBackStack("game" , FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                ft.replace(R.id.fragment_content , activeGame).addToBackStack("game").commit();
                 break;
             case R.id.nav_highscore:
                 fragment = new Highscore_list_frag();
-                ft.replace(R.id.fragment_content , fragment).addToBackStack("highscore").commit();
+                ft.add(R.id.fragment_content , fragment).addToBackStack("popit").commit();
                 break;
             case R.id.nav_help:
                 fragment = new Help_frag();
-                ft.replace(R.id.fragment_content , fragment).addToBackStack("help").commit();
+                ft.add(R.id.fragment_content , fragment).addToBackStack("popit").commit();
                 break;
 
         }

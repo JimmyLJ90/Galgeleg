@@ -7,10 +7,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 public class Galgelogik {
-  private ArrayList<String> muligeOrd = new ArrayList<String>();
+  private List<String> muligeOrd = new ArrayList<String>();
   private String ordet;
   private ArrayList<String> brugteBogstaver = new ArrayList<String>();
   private String synligtOrd;
@@ -18,7 +19,6 @@ public class Galgelogik {
   private boolean sidsteBogstavVarKorrekt;
   private boolean spilletErVundet;
   private boolean spilletErTabt;
-  private static Galgelogik INSTANCE;
 
 
   public ArrayList<String> getBrugteBogstaver() {
@@ -54,7 +54,7 @@ public class Galgelogik {
   }
 
 
-  private Galgelogik() {
+  public Galgelogik() {
     muligeOrd.add("bil");
     muligeOrd.add("computer");
     muligeOrd.add("programmering");
@@ -68,13 +68,6 @@ public class Galgelogik {
     nulstil();
   }
 
-  public static Galgelogik getInstance()
-  {
-    if(INSTANCE == null)
-      INSTANCE = new Galgelogik();
-    return INSTANCE;
-  }
-
 
 
   public void nulstil() {
@@ -86,6 +79,21 @@ public class Galgelogik {
     opdaterSynligtOrd();
   }
 
+  public void nulstil(String valgtOrd)
+  {
+    brugteBogstaver.clear();
+    antalForkerteBogstaver = 0;
+    spilletErVundet = false;
+    spilletErTabt = false;
+    ordet = valgtOrd;
+    opdaterSynligtOrd();
+  }
+
+  public void setMuligeOrd(List<String> muligeOrd)
+  {
+    this.muligeOrd = muligeOrd;
+  }
+  public List<String> getMuligeOrd (){return muligeOrd;}
 
   private void opdaterSynligtOrd() {
     synligtOrd = "";

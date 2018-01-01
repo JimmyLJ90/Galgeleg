@@ -3,6 +3,8 @@
     <color name="colorPrimary">#D4E157</color>
     <color name="colorPrimaryDark">#CDDC39</color>
     <color name="colorAccent">#F4FF81</color>
+    <color name="colorAlternateButton">#C0CA33</color>
     <color name="colorGameBackground">#F9FBE7</color>
+    <color name="colorLightTextBackground">#EEFF41</color>
     <color name="textColorPrimary">#101010</color>
 </resources>

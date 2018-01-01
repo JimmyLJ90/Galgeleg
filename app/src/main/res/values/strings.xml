@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Galgeleg</string>
+    <string name="app_name">s165223 Galgeleg</string>
     <string name="title_activity_test_test">TestTest</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -12,6 +12,6 @@
     <string name="nyt_ord">Nyt ord</string>
     <string name="highscore">Highscore</string>
     <string name="hjaelp">Hjælp</string>
-    <string name="start">Start</string>
+    <string name="start">Nyt Spil</string>
     <string name="gaet_ordet">Gæt ordet - vælg et bogstav</string>
 </resources>

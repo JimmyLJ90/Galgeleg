@@ -42,7 +42,6 @@ public class Highscore_list_frag extends Fragment {
 
         ArrayAdapter<HighscoreDTO> arrayAdapter = new ArrayAdapter<HighscoreDTO>(getActivity() ,
                 R.layout.highscore_element , R.id.highscore_rank, highscores){
-
             @Override
             public View getView(int position , View cachedView , ViewGroup parent)
             {
@@ -51,10 +50,14 @@ public class Highscore_list_frag extends Fragment {
                 TextView score = (TextView)view.findViewById(R.id.highscore_score);
                 TextView rank = (TextView)view.findViewById(R.id.highscore_rank);
                 TextView word = (TextView)view.findViewById(R.id.highscore_word);
-                rank.setText(""+(position+1));
-                name.setText("Navn: "+highscores.get(position).getName());
-                score.setText("Score: "+highscores.get(position).getScore());
-                word.setText("Ordet: "+highscores.get(position).getWord());
+                String pos = "" + (position+1);
+                String nameStr = "Navn: "+highscores.get(position).getName();
+                String scoreStr = "Score: "+highscores.get(position).getScore();
+                String wordStr = "Ordet: "+highscores.get(position).getWord();
+                rank.setText(pos);
+                name.setText(nameStr);
+                score.setText(scoreStr);
+                word.setText(wordStr);
 
                 return view;
             }

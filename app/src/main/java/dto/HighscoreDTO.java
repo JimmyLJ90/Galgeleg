@@ -9,9 +9,6 @@ public class HighscoreDTO {
     private String name;
     private int score;
     private long timestamp;
-
-
-
     private String word;
 
 
