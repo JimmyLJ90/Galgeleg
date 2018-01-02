@@ -1,9 +1,25 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listView"
+    android:id="@+id/highscore_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragments.Highscore_list_frag"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:visibility="visible"
+    tools:context="fragments.Highscore_list_frag">
 
-</ListView>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Der er ingen Highscores"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:visibility="invisible" />
+</android.support.constraint.ConstraintLayout>

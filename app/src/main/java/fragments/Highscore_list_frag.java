@@ -1,6 +1,7 @@
 package fragments;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,30 +40,40 @@ public class Highscore_list_frag extends Fragment {
         final List<HighscoreDTO> highscores = highDao.getSortedHighscores();
 
 
+        if(highscores.size() == 0)
+        {
+            root.findViewById(R.id.highscore_view).setBackgroundColor(Color.GRAY);
+            TextView tv = new TextView(getActivity());
+            root.findViewById(R.id.textView7).setVisibility(View.VISIBLE);
 
-        ArrayAdapter<HighscoreDTO> arrayAdapter = new ArrayAdapter<HighscoreDTO>(getActivity() ,
-                R.layout.highscore_element , R.id.highscore_rank, highscores){
-            @Override
-            public View getView(int position , View cachedView , ViewGroup parent)
-            {
-                View view = super.getView(position , cachedView , parent);
-                TextView name = (TextView)view.findViewById(R.id.highscore_name);
-                TextView score = (TextView)view.findViewById(R.id.highscore_score);
-                TextView rank = (TextView)view.findViewById(R.id.highscore_rank);
-                TextView word = (TextView)view.findViewById(R.id.highscore_word);
-                String pos = "" + (position+1);
-                String nameStr = "Navn: "+highscores.get(position).getName();
-                String scoreStr = "Score: "+highscores.get(position).getScore();
-                String wordStr = "Ordet: "+highscores.get(position).getWord();
-                rank.setText(pos);
-                name.setText(nameStr);
-                score.setText(scoreStr);
-                word.setText(wordStr);
+        }
+        else
+        {
+            ArrayAdapter<HighscoreDTO> arrayAdapter = new ArrayAdapter<HighscoreDTO>(getActivity() ,
+                    R.layout.highscore_element , R.id.highscore_rank, highscores){
+                @Override
+                public View getView(int position , View cachedView , ViewGroup parent)
+                {
+                    View view = super.getView(position , cachedView , parent);
+                    TextView name = (TextView)view.findViewById(R.id.highscore_name);
+                    TextView score = (TextView)view.findViewById(R.id.highscore_score);
+                    TextView rank = (TextView)view.findViewById(R.id.highscore_rank);
+                    TextView word = (TextView)view.findViewById(R.id.highscore_word);
+                    String pos = "" + (position+1);
+                    String nameStr = "Navn: "+highscores.get(position).getName();
+                    String scoreStr = "Score: "+highscores.get(position).getScore();
+                    String wordStr = "Ordet: "+highscores.get(position).getWord();
+                    rank.setText(pos);
+                    name.setText(nameStr);
+                    score.setText(scoreStr);
+                    word.setText(wordStr);
 
-                return view;
-            }
-        };
-        ((ListView)root.findViewById(R.id.listView)).setAdapter(arrayAdapter);
+                    return view;
+                }
+            };
+            ((ListView)root.findViewById(R.id.listView)).setAdapter(arrayAdapter);
+        }
+
         return root;
     }
 

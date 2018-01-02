@@ -2,8 +2,10 @@ package fragments;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.github.jinatonic.confetti.CommonConfetti;
+import com.github.jinatonic.confetti.ConfettiManager;
 
 import dao.HighscorePrefManDAO;
 import daoInterface.IHighscoreDAO;
@@ -40,6 +45,16 @@ public class Game_won_frag extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_game_won_frag, container, false);
 
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                CommonConfetti
+                        .rainingConfetti(container,
+                                new int[] {Color.BLUE , Color.GREEN , Color.CYAN , Color.RED})
+                .stream(6000);
+                ;
+            }
+        });
         winSound = MediaPlayer.create(getActivity() , R.raw.winner_sound);
         winSound.start();
 
@@ -88,6 +103,7 @@ public class Game_won_frag extends Fragment {
     public void onDestroy()
     {
         super.onDestroy();
+
         winSound.stop();
     }
 
