@@ -29,7 +29,7 @@ public class Main_nav_akt extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_nav_akt);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -44,9 +44,13 @@ public class Main_nav_akt extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment frag = new Front_page_frag();
-        FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
-        fragTrans.add(R.id.fragment_content , frag).commit();
+        if(savedInstanceState == null)
+        {
+            Fragment frag = new Front_page_frag();
+            FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
+            fragTrans.add(R.id.fragment_content , frag).commit();
+        }
+
 
     }
 

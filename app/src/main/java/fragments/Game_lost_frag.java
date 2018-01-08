@@ -34,7 +34,10 @@ public class Game_lost_frag extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_game_lost_frag, container, false);
         loseSound = MediaPlayer.create(getActivity(), R.raw.loser_sound);
-        loseSound.start();
+        if(savedInstanceState == null)
+            loseSound.start();
+
+
         String word = getArguments().getString("word");
 
         ((TextView) root.findViewById(R.id.loser_message_word)).setText(word);
@@ -58,7 +61,9 @@ public class Game_lost_frag extends Fragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         loseSound.stop();
+        loseSound.release();
+        super.onDestroy();
+
     }
 }

@@ -44,19 +44,23 @@ public class Game_won_frag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_game_won_frag, container, false);
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                CommonConfetti
-                        .rainingConfetti(container,
-                                new int[] {Color.BLUE , Color.GREEN , Color.CYAN , Color.RED})
-                .stream(6000);
-                ;
-            }
-        });
         winSound = MediaPlayer.create(getActivity() , R.raw.winner_sound);
-        winSound.start();
+        if(savedInstanceState==null)
+        {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    CommonConfetti
+                            .rainingConfetti(container,
+                                    new int[] {Color.BLUE , Color.GREEN , Color.CYAN , Color.RED})
+                            .stream(6000);
+                    ;
+                }
+            });
+
+            winSound.start();
+        }
+
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lastName = prefs.getString("lastHighscoreName", "");
@@ -102,9 +106,11 @@ public class Game_won_frag extends Fragment {
     @Override
     public void onDestroy()
     {
+        winSound.stop();
+        winSound.release();
         super.onDestroy();
 
-        winSound.stop();
+
     }
 
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,29 +65,6 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
 
 
         getActivity().setTitle("Galgeleg");
-
-
-        if(getArguments() != null)
-        {
-            String word = getArguments().getString("word");
-            if(word.length()>0)
-                GalgelegApp.getInstance().logic.nulstil(word);
-            else
-                GalgelegApp.getInstance().logic.nulstil();
-        }
-        else
-            GalgelegApp.getInstance().logic.nulstil();
-
-
-
-
-        theWord = (LinearLayout) root.findViewById(R.id.LinearLayout);
-        gallows = (ImageView) root.findViewById(R.id.imageView2);
-        keyboard = (GridView) root.findViewById(R.id.game_keyboard);
-
-        createNewKeyboard();
-
-        //Denne Hashmap gør det nemmere at hente det rigtige billede alt efter hvor mange bogstaver man har forkert
         gallowsMap = new SparseIntArray(7);
         gallowsMap.put(0, R.mipmap.galge_0_forkert);
         gallowsMap.put(1, R.mipmap.galge_1_forkert);
@@ -95,7 +73,33 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
         gallowsMap.put(4, R.mipmap.galge_4_forkert);
         gallowsMap.put(5, R.mipmap.galge_5_forkert);
         gallowsMap.put(6, R.mipmap.galge_6_forkert);
+        theWord = (LinearLayout) root.findViewById(R.id.LinearLayout);
+        gallows = (ImageView) root.findViewById(R.id.imageView2);
+        keyboard = (GridView) root.findViewById(R.id.game_keyboard);
+
+
+        System.out.println("Args: "+ getArguments());
+        if(savedInstanceState != null)
+        {
+            createKeyboardFromSavedState();
+        }
+        else if(getArguments() != null)
+        {
+            String word = getArguments().getString("word");
+            if(word.length()>0)
+                GalgelegApp.getInstance().logic.nulstil(word);
+            else
+                GalgelegApp.getInstance().logic.nulstil();
+            createNewKeyboard();
+        }
+        else
+        {
+            GalgelegApp.getInstance().logic.nulstil();
+            createNewKeyboard();
+        }
         updateScreen();
+
+
         return root;
     }
 
@@ -143,7 +147,34 @@ public class Game_main_frag extends Fragment implements AdapterView.OnItemClickL
         arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.keyboard_element, R.id.textView2, alphabet);
         keyboard.setAdapter(arrayAdapter);
         keyboard.setOnItemClickListener(this);
+    }
+    public void createKeyboardFromSavedState() {
 
+
+        String[] tempAlphabet = {"A", "B", "C", "D", "E", "F", "G", "H",
+                "I", "J", "K", "L", "M", "N", "O", "P",
+                "Q", "R", "S", "T", "U", "V", "W", "X",
+                "Y", "Z", "Æ", "Ø", "Å"};
+
+        alphabet = new ArrayList<>(Arrays.asList(tempAlphabet));
+
+        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.keyboard_element, R.id.textView2, alphabet);
+        keyboard.setAdapter(arrayAdapter);
+        keyboard.setOnItemClickListener(this);
+        List<String> usedLetters  = GalgelegApp.getInstance().logic.getBrugteBogstaver();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0 ; i<usedLetters.size() ; i++)
+                {
+                    int pos = alphabet.indexOf(usedLetters.get(i).toUpperCase());
+
+                    View letter = keyboard.getChildAt(pos);
+                    letter.setAlpha(0.5f);
+                    letter.setOnClickListener(null);
+                }
+            }
+        });
 
     }
 
